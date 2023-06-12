@@ -10,45 +10,45 @@ const requireLogin = require("../middleware/requireLogin");
 
 
 // ROUTE TO SIGNUP
-// router.post("/signup", (req, res) => {
-//   // console.log(req.body)
-//   const { name, email, password } = req.body;
-//   if (!email || !password || !name) {
-//     return res.status(422).json({ error: "Please add all the fields" });
-//   }
+router.post("/signup", (req, res) => {
+  // console.log(req.body)
+  const { name, email, password } = req.body;
+  if (!email || !password || !name) {
+    return res.status(422).json({ error: "Please add all the fields" });
+  }
 
-//   // QUERRYING THE DATABASE TO FIND USERS WITH THE EMAIL
-//   User.findOne({ email: email })
-//     .then((savedUser) => {
-//       if (savedUser) {
-//         return res
-//           .status(422)
-//           .json({ error: "User already exist with that email!" });
-//       }
+  // QUERRYING THE DATABASE TO FIND USERS WITH THE EMAIL
+  User.findOne({ email: email })
+    .then((savedUser) => {
+      if (savedUser) {
+        return res
+          .status(422)
+          .json({ error: "User already exist with that email!" });
+      }
 
-//       // WE NEED TO HASH THE PASSWORD BEFORE CREATING THE USER
-//       bcrypt
-//         .hash(password, 12) // NUMBER OF PASSWORD MUSNT BE LESS THAN 12
-//         .then((hashedPassword) => {
-//           const user = new User({
-//             email,
-//             password: hashedPassword,
-//             name,
-//           });
-//           user
-//             .save() //CREATED A NEW USER AND SAVED IN THE DB
-//             .then((user) => {
-//               res.json({ message: "User saved successfully" });
-//             })
-//             .catch((err) => {
-//               console.log(err);
-//             });
-//         });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// });
+      // WE NEED TO HASH THE PASSWORD BEFORE CREATING THE USER
+      bcrypt
+        .hash(password, 12) // NUMBER OF PASSWORD MUSNT BE LESS THAN 12
+        .then((hashedPassword) => {
+          const user = new User({
+            email,
+            password: hashedPassword,
+            name,
+          });
+          user
+            .save() //CREATED A NEW USER AND SAVED IN THE DB
+            .then((user) => {
+              res.json({ message: "User saved successfully" });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 
 // ROUTE TO SIGNIN
